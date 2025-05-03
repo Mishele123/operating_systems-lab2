@@ -1,0 +1,26 @@
+# Директории IDE и среды разработки
+.idea/
+.venv/
+cmake-build-debug/
+x64/
+x86/
+Win32/
+build/
+.vscode/
+
+# Файлы сборки и проекта Visual Studio
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.suo
+*.opensdf
+*.sdf
+*.db
+
+# Файлы форматирования кода
+.clang-format
+
+# Временные файлы
+*.tmp
+*.log
