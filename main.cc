@@ -72,7 +72,7 @@ void playPlayer(pid_t hostPID, const sigset_t &signalMask)
 {
     waitSignal(hostPID, signalMask);
 
-    int num_tries = 1;
+    int numTries = 1;
     for (int el = MAX_VALUE; el > 0; el--) 
     {
         check(sigqueue(hostPID, SIGRTMAX, sigval{el}));
@@ -85,9 +85,9 @@ void playPlayer(pid_t hostPID, const sigset_t &signalMask)
             std::cout << "That's right, it's " << el << std::endl;
             break;
         }
-        num_tries++;
+        numTries++;
     }
-    std::cout << "Number of attempts: " << num_tries << " tries" << std::endl;
+    std::cout << "Number of attempts: " << numTries << " tries" << std::endl;
 }
 
 
