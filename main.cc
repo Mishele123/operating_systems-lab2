@@ -100,7 +100,7 @@ void playHost(pid_t hostPID, int round, const sigset_t &signalMask)
 
     check(kill(hostPID, SIGUSR2));
 
-    for (int i = 1; i <= MAX_VALUE; i++) 
+    for (int i = MIN_VALUE; i <= MAX_VALUE; i++)
     {
         waitSignal(hostPID, signalMask);
         if (value == random_num) 
