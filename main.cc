@@ -80,7 +80,7 @@ void playPlayer(pid_t hostPID, const sigset_t &signalMask)
 
         waitSignal(hostPID, signalMask);
 
-        if (lastSig == SIGUSR1) 
+        if (lastSig == SIGUSR1)
         {
             std::cout << "That's right, it's " << el << std::endl;
             break;
