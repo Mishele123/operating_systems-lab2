@@ -130,11 +130,11 @@ int main()
 
     sigset_t set;
     sigfillset(&set);
-    sigprocmask(SIG_BLOCK, &set, &set);
-    sigdelset(&set, SIGUSR1);
-    sigdelset(&set, SIGUSR2);
-    sigdelset(&set, SIGRTMAX);
-    sigdelset(&set, SIGALRM);
+    check(sigprocmask(SIG_BLOCK, &set, &set));
+    check(sigdelset(&set, SIGUSR1));
+    check(sigdelset(&set, SIGUSR2));
+    check(sigdelset(&set, SIGRTMAX));
+    check(sigdelset(&set, SIGALRM));
 
     pid_t parentPID = getpid();
     pid_t pid = check(fork());
