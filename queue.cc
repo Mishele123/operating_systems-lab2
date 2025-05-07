@@ -26,7 +26,8 @@ const int SIG_FAIL = -2;
 void send(mqd_t queue, const int* value, pid_t hostPID) 
 {
     timespec timeout{};
-    while (true) {
+    while (true) 
+    {
         check(clock_gettime(CLOCK_REALTIME, &timeout));
         timeout.tv_sec += WAIT_TIME;
         if (check_except(mq_timedsend(queue, (char*)value, sizeof(int), 0, &timeout), ETIMEDOUT) == 0) 

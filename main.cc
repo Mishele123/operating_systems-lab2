@@ -31,7 +31,7 @@ void handler(int sig)
 
 void waitSignal(pid_t hostPID, const sigset_t &signalMask) 
 {
-    while (true) 
+    while (true)
     {
         sigsuspend(&signalMask);
 
@@ -42,7 +42,7 @@ void waitSignal(pid_t hostPID, const sigset_t &signalMask)
 }
 
 
-int genRandomNumber() 
+int genRandomNumber()
 {
     static std::random_device rd;
     static std::mt19937 gen(rd());
