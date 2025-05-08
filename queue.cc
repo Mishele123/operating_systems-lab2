@@ -12,6 +12,8 @@
 
 #include "check.hpp"
 
+
+
 #define MIN_VALUE 1
 #define MAX_VALUE 10
 #define NUM_ROUNDS 10
@@ -163,3 +165,6 @@ int main()
 
     return 0;
 }
+
+
+// транспонировать матрицы в 3 лабе перед умножением
