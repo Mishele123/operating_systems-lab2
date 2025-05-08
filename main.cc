@@ -16,6 +16,8 @@
 volatile sig_atomic_t lastSig;
 volatile sig_atomic_t value;
 
+
+
 void playerHandler(int sig, siginfo_t *si, void *ctx) 
 {
     lastSig = sig;
@@ -27,12 +29,12 @@ void handler(int sig)
     lastSig = sig;
 }
 
-void waitSignal(pid_t hostPID, const sigset_t &signalMask) 
+void waitSignal(pid_t pid, const sigset_t &signalMask, bool isHost) 
 {
     while (true) 
     {
         sigsuspend(&signalMask);
-        if (lastSig == SIGUSR1 || lastSig == SIGUSR2 || lastSig == SIGRTMAX)
+        if ((lastSig == SIGUSR1 || lastSig == SIGUSR2) & isHost == false || lastSig == SIGRTMAX & isHost == true)
             break;
     }
 }
@@ -69,7 +71,7 @@ void playPlayer(pid_t hostPID)
 
     check(sigemptyset(&suspendMask));
 
-    waitSignal(hostPID, suspendMask);
+    waitSignal(hostPID, suspendMask, false);
 
     int numTries = 1;
     for (int el = MAX_VALUE; el >= MIN_VALUE; el--) 
@@ -77,7 +79,7 @@ void playPlayer(pid_t hostPID)
         check(sigqueue(hostPID, SIGRTMAX, sigval{.sival_int = el}));
         std::cout << "PID [" << getpid() << "] think it's " << el << std::endl;
 
-        waitSignal(hostPID, suspendMask);
+        waitSignal(hostPID, suspendMask, false);
 
         if (lastSig == SIGUSR1) 
         {
@@ -91,7 +93,8 @@ void playPlayer(pid_t hostPID)
     check(sigprocmask(SIG_SETMASK, &oldMask, nullptr));
 }
 
-void playHost(pid_t playerPID, int round) {
+void playHost(pid_t playerPID, int round) 
+{
     sigset_t signalMask, oldMask, suspendMask;
 
     check(sigemptyset(&signalMask));
@@ -110,7 +113,7 @@ void playHost(pid_t playerPID, int round) {
 
     for (int i = MIN_VALUE; i <= MAX_VALUE; i++) 
     {
-        waitSignal(playerPID, suspendMask);
+        waitSignal(playerPID, suspendMask, true);
         if (value == random_num) 
         {
             check(kill(playerPID, SIGUSR1));
@@ -133,7 +136,8 @@ void play(pid_t pid, pid_t parentPID, int round)
     }
 }
 
-int main() {
+int main() 
+{
     sigset_t baseMask, oldMask;
     check(sigemptyset(&baseMask));
     check(sigaddset(&baseMask, SIGUSR1));
